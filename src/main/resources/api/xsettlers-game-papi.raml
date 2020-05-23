@@ -1,0 +1,95 @@
+#%RAML 1.0
+title: XSettlers Game PAPI
+version: 0.1.0
+
+types:
+  noteType: !include /definitions/noteType.raml
+  notebookType: !include definitions/notebookType.raml
+
+/note:
+  description: a general class for note objects
+  post:
+    displayName: Create a Note
+    description: Initiate a note and place it in the Object store
+    body:
+      application/json:
+        type: noteType
+        examples: !include /examples/noteExample.raml
+    responses:
+      201:
+        body:
+          application/json:
+            type: noteType
+            examples: !include examples/noteExample.raml
+  
+  /{ID}:
+    description: a single note, identified by key
+    get:
+      displayName: Retrieve a Note
+      description: retrieve indicated note
+      responses:
+        200:
+          body:
+            application/json:
+              type: noteType
+              examples: !include examples/noteExample.raml
+    put:
+      displayName: Update a Note
+      description: overwrite note in store
+      body:
+        application/json:
+          type: noteType
+          examples: !include examples/noteExample.raml
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                message: key-of-updated-object
+    delete:
+      displayName: Remove a Note
+      description: remove indicated note from store
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                message: note deleted from storage
+
+/notebook:
+  post:
+    displayName: Create a Notebook
+    description: add a new notebook to the object store
+    body:
+      application/json:
+        type: noteType
+        
+  /{ID}:
+    description: a notebook identified by key
+    get:
+      description: return a notebook
+      displayName: Get Notebook
+      responses:
+        200:
+          body:
+            application/json:
+              type: noteType
+    patch:
+      displayName: Update Notebook
+      description: update notebook with pages supplied in patch - overwrite if needed # needs update to proper example
+      responses:
+        200:
+          body:
+            application/json:
+              type: notebookType
+                
+    delete:
+      displayName: Remove a Notebook
+      description: delete a notebook from the Object store
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                notebook-key: notebook-20200511-8475
+                
