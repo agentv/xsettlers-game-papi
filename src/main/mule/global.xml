@@ -13,5 +13,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 			port="${http.port}" />
 	</http:listener-config>
 	<configuration-properties doc:name="Configuration properties" doc:id="4acb8a30-3aad-4aa5-910c-155200ab1950" file="dev-config.yaml" />
+	<http:request-config name="Object_SAPI_Request_configuration" doc:name="HTTP Request configuration" doc:id="0e0810b6-17ec-40c5-a347-8a5d8887dc8f" basePath="${object-sapi.basepath}">
+		<http:request-connection host="${object-sapi.host}" port="${object-sapi.port}" />
+	</http:request-config>
 
 </mule>

@@ -143,16 +143,7 @@ output application/json
                 <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  message: "note deleted from storage"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="deleteNoteByID" doc:id="801e2a44-6857-4bb2-ad1c-211b660e8b2e" name="deleteNoteByID" />
     </flow>
     <flow name="delete:\notebook\(ID):xsettlers-game-papi-config">
         <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
@@ -185,19 +176,7 @@ output application/json
                 <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  headline: "Bombs Rain on Bobtown",
-  owner: "Bob",
-  timestamp: "object-0200514",
-  content: "yes, we have no bananas"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="getNoteByID" doc:id="b4ee82c6-20dd-4f54-ad3f-5dd9048cec01" name="getNoteByID" />
     </flow>
     <flow name="get:\notebook\(ID):xsettlers-game-papi-config">
         <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">

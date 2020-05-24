@@ -1,2 +1,7 @@
 http:
   port: "8081"
+  
+object-sapi:
+  host: "127.0.0.1"
+  port: "18081"
+  basepath: "/api"
