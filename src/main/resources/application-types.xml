@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="note_json" format="json">
+      <types:shape format="weave" example="examples/note.json"><![CDATA[%dw 2.0
+
+type note_json = {|
+  headline: String, 
+  owner: String, 
+  timestamp: String, 
+  content: String
+|} {"example": "{\\\"headline\\\":\\\"Happiness Rains on Bobtown\\\",\\\"owner\\\":\\\"Bob\\\",\\\"timestamp\\\":\\\"note-0200521\\\",\\\"content\\\":\\\"One day this will all be yours\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="object_json" format="json">
+      <types:shape format="weave" example="examples/object.json"><![CDATA[%dw 2.0
+
+type object_json = {|
+  objecttypename: String, 
+  objectproperties: {|
+    line: String, 
+    year: String
+  |}, 
+  objectdata: String
+|} {"example": "{\\\"objecttypename\\\":\\\"ship\\\",\\\"objectproperties\\\":{\\\"line\\\":\\\"Nimitz\\\",\\\"year\\\":\\\"1999\\\"},\\\"objectdata\\\":\\\"dataencodedinline\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#04977016-d1a8-4aab-90d0-ef38d8a4596c">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="note_json"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="object_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
