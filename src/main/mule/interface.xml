@@ -93,7 +93,7 @@ output application/json
             </on-error-propagate>
         </error-handler>
     </flow>
-    <flow name="xsettlers-game-papi-console" initialState="stopped">
+    <flow name="xsettlers-game-papi-console">
         <http:listener config-ref="xsettlers-game-papi-httpListenerConfig" path="/console/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers>#[vars.outboundHeaders default {}]</http:headers>
@@ -126,16 +126,7 @@ output application/json
                 <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  message: "key-of-updated-object"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="putNoteByID" doc:id="07a8e6d2-c555-4396-8c33-dc158d0c13c3" name="putNoteByID" />
     </flow>
     <flow name="delete:\note\(ID):xsettlers-game-papi-config">
         <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
 	<http:listener-config
 		name="xsettlers-game-papi-httpListenerConfig">
@@ -16,5 +17,21 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<http:request-config name="Object_SAPI_Request_configuration" doc:name="HTTP Request configuration" doc:id="0e0810b6-17ec-40c5-a347-8a5d8887dc8f" basePath="${object-sapi.basepath}">
 		<http:request-connection host="${object-sapi.host}" port="${object-sapi.port}" />
 	</http:request-config>
+	<flow name="dataWeaveSandbox" doc:id="974671c3-24be-485e-b68e-d562d02ce617" >
+		<ee:transform doc:name="Transform Message" doc:id="88566ad4-603d-4dd1-8d27-fefb084b5fe3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/dw
+var j = {one: 1, two: 2}
+var k = {three: 3, four: 4}
+var comp = [j,k]
+---
+//comp // original array
+//(comp) // also original array
+//{comp} // error
+{(comp)}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
 
 </mule>

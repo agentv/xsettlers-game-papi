@@ -27,6 +27,10 @@ type object_json = {|
 
 ]]></types:shape>
     </types:type>
+    <types:type name="ID_type" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
   </types:catalog>
   <types:enrichment select="#04977016-d1a8-4aab-90d0-ef38d8a4596c">
     <types:processor-declaration>
@@ -39,6 +43,15 @@ type object_json = {|
         <types:message>
           <types:payload type="object_json"/>
         </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#bf680022-e1aa-49cd-857c-d03aea551c16">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:variables>
+          <types:variable name="ID" type="ID_type"/>
+        </types:variables>
       </types:output-event>
     </types:processor-declaration>
   </types:enrichment>
