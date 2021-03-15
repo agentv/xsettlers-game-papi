@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
     <apikit:config name="xsettlers-game-papi-config" api="xsettlers-game-papi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="xsettlers-game-papi-main">
         <http:listener config-ref="xsettlers-game-papi-httpListenerConfig" path="/api/*">
@@ -126,7 +126,7 @@ output application/json
                 <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-		<flow-ref doc:name="putNoteByID" doc:id="07a8e6d2-c555-4396-8c33-dc158d0c13c3" name="putNoteByID" />
+        <flow-ref doc:name="putNoteByID" doc:id="07a8e6d2-c555-4396-8c33-dc158d0c13c3" name="putNoteByID" />
     </flow>
     <flow name="delete:\note\(ID):xsettlers-game-papi-config">
         <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
@@ -134,7 +134,7 @@ output application/json
                 <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-		<flow-ref doc:name="deleteNoteByID" doc:id="801e2a44-6857-4bb2-ad1c-211b660e8b2e" name="deleteNoteByID" />
+        <flow-ref doc:name="deleteNoteByID" doc:id="801e2a44-6857-4bb2-ad1c-211b660e8b2e" name="deleteNoteByID" />
     </flow>
     <flow name="delete:\notebook\(ID):xsettlers-game-papi-config">
         <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
@@ -167,7 +167,7 @@ output application/json
                 <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-		<flow-ref doc:name="getNoteByID" doc:id="b4ee82c6-20dd-4f54-ad3f-5dd9048cec01" name="getNoteByID" />
+        <flow-ref doc:name="getNoteByID" doc:id="b4ee82c6-20dd-4f54-ad3f-5dd9048cec01" name="getNoteByID" />
     </flow>
     <flow name="get:\notebook\(ID):xsettlers-game-papi-config">
         <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
@@ -190,9 +190,365 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="post:\note:application\json:xsettlers-game-papi-config">
-		<flow-ref doc:name="main::postNote" doc:id="933446ce-994d-4bf8-8900-a5d2f3b8502e" name="postNote"/>
+        <flow-ref doc:name="main::postNote" doc:id="933446ce-994d-4bf8-8900-a5d2f3b8502e" name="postNote" />
     </flow>
     <flow name="post:\notebook:application\json:xsettlers-game-papi-config">
         <logger level="INFO" message="post:\notebook:application\json:xsettlers-game-papi-config" />
+    </flow>
+    <flow name="put:\sector\(ID):application\json:xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="put:\sector\(ID):application\json:xsettlers-game-papi-config" />
+    </flow>
+    <flow name="delete:\sector\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  location: {
+    xCoord: 0,
+    yCoord: 0,
+    zCoord: 0
+  },
+  energy: 293.0,
+  farm: 167.0,
+  mining: 184.0,
+  portRegistry: [],
+  colonyRegistry: []
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="delete:\ship\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="delete:\ship\(ID):xsettlers-game-papi-config" />
+    </flow>
+    <flow name="delete:\pod\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="delete:\pod\(ID):xsettlers-game-papi-config" />
+    </flow>
+    <flow name="delete:\player\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  responsemessage: "Your item has been deleted"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="delete:\colony\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="delete:\colony\(ID):xsettlers-game-papi-config" />
+    </flow>
+    <flow name="patch:\ship\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="patch:\ship\(ID):xsettlers-game-papi-config" />
+    </flow>
+    <flow name="patch:\pod\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="patch:\pod\(ID):xsettlers-game-papi-config" />
+    </flow>
+    <flow name="patch:\colony\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="patch:\colony\(ID):xsettlers-game-papi-config" />
+    </flow>
+    <flow name="patch:\player\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  responsemessage: "Your item has been updated"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="patch:\scenario\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="patch:\scenario\(ID):xsettlers-game-papi-config" />
+    </flow>
+    <flow name="get:\player:xsettlers-game-papi-config">
+        <logger level="INFO" message="get:\player:xsettlers-game-papi-config" />
+    </flow>
+    <flow name="get:\pod:xsettlers-game-papi-config">
+        <logger level="INFO" message="get:\pod:xsettlers-game-papi-config" />
+    </flow>
+    <flow name="get:\region:xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+[
+  {
+    location: {
+      xCoord: 0,
+      yCoord: 0,
+      zCoord: 0
+    },
+    energy: 293.0,
+    farm: 167.0,
+    mining: 184.0,
+    portRegistry: [],
+    colonyRegistry: []
+  }, 
+  {
+    location: {
+      xCoord: 1,
+      yCoord: 0,
+      zCoord: 0
+    },
+    energy: 391.0,
+    farm: 145.0,
+    mining: 171.0,
+    portRegistry: [],
+    colonyRegistry: []
+  }, 
+  {
+    location: {
+      xCoord: 2,
+      yCoord: 0,
+      zCoord: 0
+    },
+    energy: 285.0,
+    farm: 161.0,
+    mining: 189.0,
+    portRegistry: [],
+    colonyRegistry: []
+  }
+]]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\scenario:xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  scenarioExample: {
+    playerRegistry: [
+      "one", 
+      "two"
+    ],
+    shipRegistry: [
+      "one", 
+      "two"
+    ],
+    colonyRegistry: [
+      "one", 
+      "two"
+    ],
+    bank: {
+      liquidBalance: 100,
+      totalBalance: 1000,
+      loans: [
+        "one", 
+        "two"
+      ],
+      bonds: [
+        "one", 
+        "two"
+      ]
+    },
+    notebooks: [
+      "one", 
+      "two"
+    ],
+    notes: [
+      "one", 
+      "two"
+    ]
+  }
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\sector:xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  location: {
+    xCoord: 0,
+    yCoord: 0,
+    zCoord: 0
+  },
+  energy: 293.0,
+  farm: 167.0,
+  mining: 184.0,
+  portRegistry: [],
+  colonyRegistry: []
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\sector\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  location: {
+    xCoord: 0,
+    yCoord: 0,
+    zCoord: 0
+  },
+  energy: 293.0,
+  farm: 167.0,
+  mining: 184.0,
+  portRegistry: [],
+  colonyRegistry: []
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\colony\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="get:\colony\(ID):xsettlers-game-papi-config" />
+    </flow>
+    <flow name="get:\player\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="get:\player\(ID):xsettlers-game-papi-config" />
+    </flow>
+    <flow name="get:\scenario\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="get:\scenario\(ID):xsettlers-game-papi-config" />
+    </flow>
+    <flow name="get:\ship\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  appelation: "Nimitz",
+  class: "Badass Cruiser",
+  status: "operational"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\pod\(ID):xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="get:\pod\(ID):xsettlers-game-papi-config" />
+    </flow>
+    <flow name="post:\pod:xsettlers-game-papi-config">
+        <logger level="INFO" message="post:\pod:xsettlers-game-papi-config" />
+    </flow>
+    <flow name="post:\region:xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  location: {
+    xCoord: 0,
+    yCoord: 0,
+    zCoord: 0
+  },
+  energy: 293.0,
+  farm: 167.0,
+  mining: 184.0,
+  portRegistry: [],
+  colonyRegistry: []
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\scenario:xsettlers-game-papi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "output": "Your scenario has been created"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
     </flow>
 </mule>

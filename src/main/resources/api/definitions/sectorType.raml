@@ -1,0 +1,34 @@
+#%RAML 1.0 DataType
+
+type: object
+properties:
+  energy:
+    required: true
+    type: number
+  farm:
+    required: true
+    type: number
+  mining:
+    required: true
+    type: number
+  portRegistry:
+    required: true
+    type: object[]
+  colonyRegistry:
+    required: true
+    type: object[]
+  location:
+    required: true
+    type: object
+    properties:
+      xCoord:
+        required: true
+        type: number
+      yCoord:
+        required: true
+        type: number
+      zCoord:
+        required: true
+        type: number
+      
+

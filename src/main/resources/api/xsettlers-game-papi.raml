@@ -1,10 +1,11 @@
 #%RAML 1.0
 title: XSettlers Game PAPI
-version: 0.1.0
+version: 0.1.1
 
 types:
-  noteType: !include /definitions/noteType.raml
+  noteType: !include definitions/noteType.raml
   notebookType: !include definitions/notebookType.raml
+  sectorType: !include definitions/sectorType.raml
 
 /note:
   description: a general class for note objects
@@ -14,13 +15,15 @@ types:
     body:
       application/json:
         type: noteType
-        examples: !include /examples/noteExample.raml
+        examples:
+          input: !include /examples/noteExample.raml
     responses:
       201:
         body:
           application/json:
             type: noteType
-            examples: !include examples/noteExample.raml
+            examples:
+              output: !include examples/noteExample.raml
   
   /{ID}:
     description: a single note, identified by key
@@ -32,14 +35,16 @@ types:
           body:
             application/json:
               type: noteType
-              examples: !include examples/noteExample.raml
+              examples:
+                output: !include examples/noteExample.raml
     put:
       displayName: Update a Note
       description: overwrite note in store
       body:
         application/json:
           type: noteType
-          examples: !include examples/noteExample.raml
+          examples:
+            output: !include examples/noteExample.raml
       responses:
         200:
           body:
@@ -62,7 +67,9 @@ types:
     description: add a new notebook to the object store
     body:
       application/json:
-        type: noteType
+        type: notebookType
+        examples:
+          input: !include examples/notebookExample.json
         
   /{ID}:
     description: a notebook identified by key
@@ -82,6 +89,8 @@ types:
           body:
             application/json:
               type: notebookType
+              examples:
+                output: !include examples/notebookExample.json
                 
     delete:
       displayName: Remove a Notebook
@@ -92,4 +101,155 @@ types:
             application/json:
               example:
                 notebook-key: notebook-20200511-8475
-                
+
+/sector:
+  description: One region of space designed in the game
+  get:
+    description: initialize a new sector (I'm not convinced about this - just one sector?)
+    responses:
+      200:
+        body:
+          application/json:
+            type: sectorType
+            examples:
+              output: !include examples/sectorExample.json
+  /{ID}:
+    description: a region defined by the key in ID
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              examples:
+                output: !include examples/sectorExample.json
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              examples:
+                output: !include examples/sectorExample.json
+    put:
+      body:
+        application/json:
+          examples:
+            output: !include examples/sectorExample.json
+
+/region:
+  description: a collection of sectors, 16 to a side 
+  get:
+    description: retrieve a region of sectors
+    responses:
+      200:
+        body:
+          application/json:
+            type: sectorType[]
+            examples:
+              output: !include examples/sectorsExample.json
+  post:
+    description: initialize a region of sectors
+    responses:
+      201:
+        body:
+          application/json:
+            type: sectorType
+            examples:
+              output: !include examples/sectorExample.json
+          
+/ship:
+  /{ID}:
+    get:
+      responses:
+       "200":
+          body:
+            application/json:
+              example:
+                appelation: Nimitz
+                class: Badass Cruiser
+                status: operational
+    delete:
+    patch:
+
+/colony:
+  /{ID}:
+    get:
+    delete:
+    patch:
+    
+/pod:
+  get:
+  post:
+
+  /{ID}:
+    get:
+    delete:
+    patch:  
+
+/player:
+  description: structures needed for a player in the game (build for eventual refactoring in to generic "game" API.)
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              accountID: string
+              displayname: string
+              bank:
+                type: object
+                properties:
+                  sols: number
+                  loans: array
+                  bonds: array
+              shipRegistry: array
+              colonyRegistry: array
+    
+  /{ID}:
+    description: one specific player identified by ID
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+                      
+    patch:
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                responsemessage: Your item has been updated
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                responsemessage: Your item has been deleted
+      
+/scenario:
+  description: a given static configuration for game starting positions
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            examples:
+              output: !include examples/scenarioExample.raml
+  post:
+    description: with no modifiers, return a new scenario object - use parameters and inputs to customize it
+    responses:
+      201:
+        body:
+          application/json:
+            type: object
+            example:
+              output: Your scenario has been created
+
+  /{ID}:
+    description: one specific scenario, identified by ID
+    get:
+    patch:
+      description: update a scenario with additional details
