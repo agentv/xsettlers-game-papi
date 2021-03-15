@@ -96,22 +96,20 @@ conducted by all ships and colonies is held against the sector maximum capacity.
 
 ### Gameboard
 This represents the administrative structures that govern the game. At its core, it is comprised of Sectors.
-Initially it is a two-dimensional grid of unlimited size. Sectors are only instantiated when a player interacts
+It is a three-dimensional grid of unlimited size. Sectors are only instantiated when a player interacts
 with them, so the data model is that of a sparsely populated grid.
 
-The coordinate system places the origin (0,0) at the upper left. The game premise is that an energy barrier
+The coordinate system places the origin (0,0,0) at the upper left. The game premise is that an energy barrier
 surrounds the playable area such at all positive Y coordinates, all negative X coordinates are inaccessible.
-The "richness" of the sectors increases toward the center and the origin Sector is extraordinarily rich. 
-(this concept is under review as possibly being too predictable.)
+The "richness" of the sectors increases toward the center and the origin Sector is extraordinarily rich.
 
 As sectors are "discovered" their capacity is calculated. A random value for energy, food, and goods production
 is determined with higher general values toward the center. The origin sector has hard-coded capacities (although
 this is not necessarily known to the players).
 
-All functions that govern the game overall are a part of the Gameboard. That includes the player roster,
-the game clock, the end-of-turn logic, and more.
 
 #### Gameboard Components
+_maybe up for review_
 
 - Player
 - Sector
@@ -119,9 +117,11 @@ the game clock, the end-of-turn logic, and more.
 - Timer
 - MasterRegistry
 - MessageRegistry
-- Plot - a 16x16 section of the game surface (later 16^3)
+- Plot - a 16x16x16 section of the game surface
 
 #### Project Status
 
+210314 - project homed in its own Studio workspace. 
+
 200525 - migrate content from original project (Outlanders) into this structure. Three of the four APIs are framed in although
-they are all incomplete. Next, we begin to 
+they are all incomplete. Next, we begin to manage them in a Git repo, and add early game and admin functions.
