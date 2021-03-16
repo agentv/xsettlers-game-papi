@@ -11,7 +11,9 @@
                 <http:headers>#[vars.outboundHeaders default {}]</http:headers>
             </http:error-response>
         </http:listener>
-        <apikit:router config-ref="xsettlers-game-papi-config" />
+        <set-variable value='#[output application/json --- payload default {fake: "news"}]' doc:name="content" doc:id="7084e50a-0b7f-4586-837e-471ad41a7963" variableName="content"/>
+		<logger level="INFO" doc:name="Input" doc:id="4dbcb7b5-3445-49de-a465-d852a02fbc89" message='#[{&#10;	megadata: attributes,&#10;	inputdata: payload&#10;}]'/>
+		<apikit:router config-ref="xsettlers-game-papi-config" />
         <error-handler>
             <on-error-propagate type="APIKIT:BAD_REQUEST">
                 <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
